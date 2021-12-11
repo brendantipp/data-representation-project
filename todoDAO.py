@@ -26,12 +26,13 @@ class TodoDAO:
 
     def create(self, task):
         cursor = self.db.cursor()
-        sql="insert into todo (TASKID, Title, Category, Priority) values (%s,%s,%s,%s)"
+        sql="insert into todo (Title, Category, Description, Priority, Status) values (%s,%s,%s,%s,%s)"
         values = [
-            task['TASKID'],
             task['Title'],
             task['Category'],
+            task['Description'],
             task['Priority'],
+            task['Status']
             ]
 
         cursor.execute(sql, values)
