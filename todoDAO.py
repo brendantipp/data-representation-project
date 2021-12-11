@@ -61,9 +61,43 @@ class TodoDAO:
 #function to find a task by id
 
     def findByID(self, TASKID):
+        cursor = self.db.cursor()
+        sql="select * from todo where TASKID = %s"
+        values = [TASKID]
+        cursor.execute(sql,values)
+        result = cursor.fetchone()
+        return self.convertToDictionary(result)
+        #return {}
+
+
+#function to update
+
+    def update(self, task):
+        cursor = self.db.cursor()
+        sql="update todo set Category= %s, Priority= %s, Status = %s  where TASKID = %s "
+        values = [
+            task['Category'],
+            task['Priority'],
+            task['Status'],
+            task['TASKID']
+            ]
+        cursor.execute(sql, values)
+        self.db.commit()
+        return task
+
+
+
+
+#function to delete
+
+    def delete(self, TASKID):
+        cursor = self.db.cursor()
+        sql="delete from todo where TASKID = %s"
+        values = [TASKID]
+        cursor.execute(sql, values)
+        self.db.commit()
+        print("delete done")
         return {}
-
-
 
 
 
@@ -71,7 +105,7 @@ class TodoDAO:
 #function to covert to dictionary
 
     def convertToDictionary(self, result):
-        colnames=['DateAdded','Title','Category','Description','Priority', 'Status']
+        colnames=['TASKID','DateAdded','Title','Description','Category','Priority', 'Status','DeadlineDate']
         item = {}
         
         if result:
