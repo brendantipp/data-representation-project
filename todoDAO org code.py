@@ -82,6 +82,4 @@ class TodoDAO:
         
         return item
     
-
-
 todoDAO = TodoDAO()

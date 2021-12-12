@@ -6,8 +6,8 @@ task = {
 
 
 
-'Title':"First Task",
-'Description':'Get project done',
+'Title':"NEW XMAS FILM TEST",
+'Description':'NEED WINE',
 'Category':"College",
 'Priority':"High",
 'Status':"Open"
@@ -17,7 +17,7 @@ task = {
 
 task2 = {
 
-'TASKID':2,
+'TASKID':3,
 'Category':"Home",
 'Priority':"XLow",
 'Status':"Closed"
@@ -48,7 +48,7 @@ task4 = {
 
 task5 = {
 
-'TASKID':2,
+'TASKID':1,
 
 
 }
@@ -58,8 +58,8 @@ task5 = {
 #returnvalue =todoDAO.create(task)
 
 #testing the get all 
-#returnValue = todoDAO.getAll()
-#print(returnValue)
+returnValue = todoDAO.getAll()
+print(returnValue)
 
 #testing find by id 
 #returnValue = todoDAO.findByID(task4['TASKID'])
@@ -73,5 +73,5 @@ task5 = {
 
 
 #testing delete
-returnValue = todoDAO.delete(task5['TASKID'])
-print(returnValue)
+#returnValue = todoDAO.delete(task5['TASKID'])
+#print(returnValue)

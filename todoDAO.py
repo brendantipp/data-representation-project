@@ -1,16 +1,14 @@
-#this is doa.py
-
-
+#this is todpdoa.py
 #deals with msqlconnector
-
-#covert formats
+#convert formats
 
 
 import mysql.connector
+
 from datetime import datetime
 #now = datetime.now()
 
-class TodoDAO:
+class todoDAO:
     db=""
     def __init__(self): 
         self.db = mysql.connector.connect(
@@ -25,17 +23,18 @@ class TodoDAO:
 
 ### create new record
 
-    def create(self, task):
+    def create(self,task):
         cursor = self.db.cursor()
         sql="insert into todo (DateAdded,Title, Category, Description, Priority, Status) values (now(),%s,%s,%s,%s,%s)"
+        
         values = [
-            #task['DateAdded'],
+            task['DateAdded'],
             task['Title'],
             task['Category'],
             task['Description'],
             task['Priority'],
             task['Status']
-            ]
+        ]
 
         cursor.execute(sql, values)
 
@@ -50,13 +49,17 @@ class TodoDAO:
         sql="select * from todo"
         cursor.execute(sql)
         results = cursor.fetchall()
+        #return results
         returnArray = []
         #print(results)
         ##look at converting to json later
         #sanity check
         for result in results:
-            print(result)
+           # print(result)
             returnArray.append(self.convertToDictionary(result))
+        return returnArray
+
+    
 
 #function to find a task by id
 
@@ -76,15 +79,25 @@ class TodoDAO:
         cursor = self.db.cursor()
         sql="update todo set Category= %s, Priority= %s, Status = %s  where TASKID = %s "
         values = [
+            
             task['Category'],
             task['Priority'],
             task['Status'],
             task['TASKID']
+            
             ]
         cursor.execute(sql, values)
         self.db.commit()
         return task
 
+
+    def update2(self, values,TASKID):
+        cursor = self.db.cursor()
+        sql="update todo set Category= %s, Priority= %s, Status = %s where TASKID = TASKID"
+        
+        cursor.execute(sql, values)
+        self.db.commit()
+        return values
 
 
 
@@ -93,12 +106,23 @@ class TodoDAO:
     def delete(self, TASKID):
         cursor = self.db.cursor()
         sql="delete from todo where TASKID = %s"
-        values = [TASKID]
+        values = (TASKID,)
         cursor.execute(sql, values)
+        #cursor.execute(sql)
         self.db.commit()
         print("delete done")
-        return {}
+        #return
 
+
+    def delete2(self, id):
+        cursor = self.db.cursor()
+        sql="delete from todo where id = %s"
+        values = (id,)
+
+        cursor.execute(sql, values)
+
+        self.db.commit()
+        print("delete done")
 
 
 
@@ -114,7 +138,5 @@ class TodoDAO:
                 item[colName] = value
         
         return item
-    
-
-
-todoDAO = TodoDAO()
+  
+todoDAO = todoDAO()

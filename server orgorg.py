@@ -40,6 +40,9 @@ def create():
     book['id'] = newId
     return jsonify(book)
 
+
+    
+
 #curl  -i -H "Content-Type:application/json" -X PUT -d "{\"Title\":\"hello\",\"Author\":\"someone\",\"Price\":123}" http://127.0.0.1:5000/books/1
 @app.route('/books/<int:id>', methods=['PUT'])
 def update(id):
