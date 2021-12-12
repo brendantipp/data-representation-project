@@ -22,11 +22,14 @@ def index():
 #curl "http://127.0.0.1:5000/todo"
 @app.route('/todo')
 def getAll():
-    print("in getall")
-    results = todoDAO.getAll()
-    return jsonify(results)
+    #print("in getall")
+    result = todoDAO.getAll()
+    return jsonify(result)
+    #return jsonify(todoDAO.getAll())
 
-#curl "http://127.0.0.1:5000/todo/2"
+
+
+#curl "http://127.0.0.1:5000/todo/7"
 @app.route('/todo/<int:TASKID>')
 def findById(TASKID):
     foundtask = todoDAO.findByID(TASKID)
@@ -35,29 +38,35 @@ def findById(TASKID):
 
 
 
-#curl  -i -H "Content-Type:application/json" -X PUT -d "{\"Title\":\"hello\",\"Author\":\"someone\",\"Price\":123}" http://127.0.0.1:5000/todo/1
+#curl  -i -H "Content-Type:application/json" -X PUT -d "{\"Category\":\"ella\",\"Priority\":\"xHigh\",\"Status\":\"OPEN\"}" http://127.0.0.1:5000/todo/3
+
+
 @app.route('/todo/<int:TASKID>', methods=['PUT'])
 def update(TASKID):
     foundtask = todoDAO.findByID(TASKID)
+    print("found book")
     if not foundtask:
+       # print("error1")
         abort(404)
     
     if not request.json:
+        #print("error2")
         abort(400)
     reqJson = request.json
-    #if 'Price' in reqJson and type(reqJson['Price']) is not int:
-        #abort(400)
+    print(reqJson)
 
+ 
     if 'Category' in reqJson:
         foundtask['Category'] = reqJson['Category']
     if 'Priority' in reqJson:
         foundtask['Priority'] = reqJson['Priority']
     if 'Status' in reqJson:
         foundtask['Status'] = reqJson['Status']
-    
-    
+    if 'TASKID' in reqJson:
+        foundtask['TASKID'] = reqJson['TASKID']
+        
     values = (foundtask['Category'],foundtask['Priority'],foundtask['Status'])
-    todoDAO.update(values)
+    todoDAO.update2(values,TASKID)
     return jsonify(foundtask)
 
 
@@ -86,9 +95,15 @@ def create():
     values = (task['Title'],task['Category'],task['Description'],task['Priority'],task['Status'])
     #newId = todoDAO.create(values)
     #task['TASKID'] = newId
-    return jsonify(task)
+    #return jsonify(task)
+    return jsonify(todoDAO.create(task))
 
 
+
+@app.route('/todo/<int:id>' , methods=['DELETE'])
+def delete(TASKID):
+    todoDAO.delete(TASKID)
+    return jsonify({"done":True})
 
 
 
