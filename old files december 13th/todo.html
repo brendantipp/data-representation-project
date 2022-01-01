@@ -1,0 +1,280 @@
+<html>
+    <head>
+        <title> To Do List</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+       
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <h1>To Do List</h1>
+        <div> <button id="showCreateButton" onclick="showCreate()">Create new Task</button></div>
+        <h1>after</h1>
+        <div>
+            <table class="table" id="taskTable">
+                <tr>
+                        <th>TASKID</th>
+                        <th>Date Added</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Deadline Date</th>
+
+
+
+                </tr>
+                
+            </table>
+        </div>
+        <div id='createUpdateForm' style="display: none">
+                <h2><span id="createLabel">Create a</span> <span id="updateLabel">update</span> task</h2>
+                <! --- and --->
+                <!--- TASKID <input type="text" name="TASKID"/>--->
+                Title <input type="text" name="Title" /><br/>
+                Description <input type="text" name="Description"/> <br/>
+                Category <input type="number" name="Category"/> <br/>
+                Priority <input type="text" name="Priority" /><br/>
+                Status <input type="text" name="Status"/> <br/>
+                Deadline Date <input type="date" name="Deadline Date"/> <br/>
+                
+                <span><button id="doCreateButton" onclick="doCreate()">Create</button></span>
+                <span><button id="doUpdateButton" onclick="doUpdate()">Update</button></span>
+        </div>
+    </body>
+    
+    
+    
+    <script>
+    function showCreate(){
+        document.getElementById('showCreateButton').style.display="none"
+        document.getElementById('taskTable').style.display="none"
+        document.getElementById('createUpdateForm').style.display="block"
+
+        document.getElementById('createLabel').style.display="inline"
+        document.getElementById('updateLabel').style.display="none"
+
+        document.getElementById('doCreateButton').style.display="block"
+        document.getElementById('doUpdateButton').style.display="none"
+
+    }
+    function showViewAll(){
+        document.getElementById('showCreateButton').style.display="block"
+        document.getElementById('taskTable').style.display="block"
+        document.getElementById('createUpdateForm').style.display="none"
+    }
+    function showUpdate(buttonElement){
+        document.getElementById('showCreateButton').style.display="none"
+        document.getElementById('taskTable').style.display="none"
+        document.getElementById('createUpdateForm').style.display="block"
+
+        document.getElementById('createLabel').style.display="none"
+        document.getElementById('updateLabel').style.display="inline"
+
+        document.getElementById('doCreateButton').style.display="none"
+        document.getElementById('doUpdateButton').style.display="block"
+
+
+        var rowElement = buttonElement.parentNode.parentNode
+        // these is a way of finding the closest <tr> which would safer, closest()
+        
+        var task = gettaskFromRow(rowElement)
+        populateFormWithtask(task)
+    }
+    function doCreate(){
+        var form = document.getElementById('createUpdateForm')
+        
+
+        var task = {}
+       
+        task.Title = form.querySelector('input[name="Title"]').value
+        task.Description = form.querySelector('input[name="Description"]').value
+        task.Category = form.querySelector('input[name="Category"]').value
+        task.Priority = form.querySelector('input[name="Priority"]').value
+        task.Status = form.querySelector('input[name="Status"]').value
+        //task.Deadline_Date = form.querySelector('input[name="Deadline Date"]').value
+
+        console.log(JSON.stringify(task))
+        createtaskAjax(task)
+        
+        
+    }
+    function doUpdate(){
+        var task = gettaskFromForm();
+        var rowElement = document.getElementById(task.TASKID);
+        updatetaskAjax(task);
+        settaskInRow(rowElement,task);
+       
+        clearForm();
+        showViewAll();
+    }
+    function doDelete(r){
+        var tableElement = document.getElementById('taskTable');
+        var rowElement = r.parentNode.parentNode;
+        var index = rowElement.rowIndex;
+        deletetaskAjax(rowElement.getAttribute("TASKID"));
+        tableElement.deleteRow(index);
+    }
+    function addtaskToTable(task){
+        var tableElement = document.getElementById('taskTable')
+        var rowElement = tableElement.insertRow(-1)
+        rowElement.setAttribute('TASKID',task.id)
+        var cell1 = rowElement.insertCell(0);
+        cell1.innerHTML = task.id
+        var cell2 = rowElement.insertCell(1);
+        cell2.innerHTML = task.Title
+        var cell3 = rowElement.insertCell(2);
+        cell3.innerHTML = task.Description
+        var cell4 = rowElement.insertCell(3);
+        cell4.innerHTML = task.Category
+        var cell5 = rowElement.insertCell(4);
+        cell5.innerHTML = task.Priority
+        var cell6 = rowElement.insertCell(5);
+        cell6.innerHTML = task.Status
+        var cell7 = rowElement.insertCell(6);
+        cell7.innerHTML = task.Deadline_Date
+        var cell8 = rowElement.insertCell(7);
+        cell8.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+        var cell9 = rowElement.insertCell(8);
+        cell9.innerHTML = '<button onclick=doDelete(this)>delete</button>'
+
+    }
+
+    function clearForm(){
+        var form = document.getElementById('createUpdateForm')
+
+        form.querySelector('input[name="Title"]').value=''
+        form.querySelector('input[name="Description"]').value=''
+        form.querySelector('input[name="Category"]').value=''
+        form.querySelector('input[name="Priority"]').value=''
+        form.querySelector('input[name="Status"]').value=''
+        form.querySelector('input[name="Deadline Date"]').value=''
+    }
+    function gettaskFromRow(rowElement){
+        var car ={}
+        task.TASKID  = rowElement.getAttribute('TASKID')
+        task.Title = rowElement.cells[1].firstChild.textContent
+        task.Description = rowElement.cells[2].firstChild.textContent
+        task.Category = rowElement.cells[3].firstChild.textContent
+        task.Priority = rowElement.cells[4].firstChild.textContent
+        task.Status = rowElement.cells[5].firstChild.textContent
+        task.Deadline_Date = rowElement.cells[6].firstChild.textContent
+        
+        return task
+    }
+    function settaskInRow(rowElement, task){
+        rowElement.cells[0].firstChild.textContent= task.TASKID  
+        rowElement.cells[1].firstChild.textContent= task.Title 
+        rowElement.cells[2].firstChild.textContent= task.Author
+        rowElement.cells[3].firstChild.textContent= task.Price
+    }
+    function populateFormWithtask(task){
+        var form = document.getElementById('createUpdateForm')
+        form.querySelector('input[name="TASKID"]').disabled = true
+
+        form.querySelector('input[name="TASKID"]').value  = task.TASKID
+        form.querySelector('input[name="Title"]').value = task.Title
+        form.querySelector('input[name="Description"]').value= task.Description
+        form.querySelector('input[name="Category"]').value= task.Category
+        form.querySelector('input[name="Priority"]').value= task.Priority
+        form.querySelector('input[name="Status"]').value= task.Status
+        //form.querySelector('input[name="Deadline_Date"]').value= task.Deadline_Date
+
+        return task
+    }
+    function gettaskFromForm(){
+        var form = document.getElementById('createUpdateForm')
+        var task = {}
+        task.TASKID = form.querySelector('input[name="TASKID"]').value
+        task.Title = form.querySelector('input[name="Title"]').value
+        task.Description = form.querySelector('input[name="Description"]').value
+        task.Category = form.querySelector('input[name="Category"]').value
+        task.Priority = form.querySelector('input[name="Priority"]').value
+        task.Status = form.querySelector('input[name="Status"]').value
+        //task.Deadline_Date = form.querySelector('input[name="Deadline_Date"]').value
+                
+        console.log(JSON.stringify(task))
+        return task
+    }
+    function getAllAjax(){
+        $.ajax({
+            "url": "http://127.0.0.1:5000/todo",
+            "method":"GET",
+            "data":"",
+            "dataType": "JSON",
+            "success":function(result){
+                //console.log(result);
+                for (task of result){
+                    addtaskToTable(task);
+                }
+                
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+
+    }
+    function createtaskAjax(todo){
+        //var car = {"reg":"12 D 1234","make":"Fiat","model":"Punto","price":3000}
+        console.log(JSON.stringify(task));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/todo",
+            "method":"POST",
+            "data":JSON.stringify(task),
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+                //console.log(result);
+                task.TASKID = result.id
+                addtaskToTable(task)
+                clearForm()
+                showViewAll()
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    function updatetaskAjax(todo){
+        //var car = {"reg":"12 D 1234","price":8000}
+        console.log(JSON.stringify(task));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/todo/"+encodeURI(task.TASKID),
+            "method":"PUT",
+            "data":JSON.stringify(task),
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+               // console.log(result);
+                  
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    function deletetaskAjax(TASKID){
+        
+        //console.log(JSON.stringify('deleting '+id));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/todo/"+encodeURI(TASKID),
+            "method":"DELETE",
+            "data":"",
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+                //console.log(result);
+                  
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    getAllAjax();
+  
+
+    
+    </script>
+</html>

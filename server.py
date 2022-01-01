@@ -19,8 +19,8 @@ app = Flask(__name__, static_url_path='', static_folder='.')
 def index():
     return "Hello, World!"
 
-#curl "http://127.0.0.1:5000/todo"
-@app.route('/todo')
+#curl "http://127.0.0.1:5000/task"
+@app.route('/task')
 def getAll():
     #print("in getall")
     result = todoDAO.getAll()
@@ -29,52 +29,56 @@ def getAll():
 
 
 
-#curl "http://127.0.0.1:5000/todo/7"
-@app.route('/todo/<int:TASKID>')
-def findById(TASKID):
-    foundtask = todoDAO.findByID(TASKID)
+#curl "http://127.0.0.1:5000/task/37"
+@app.route('/task/<int:ID>')
+def findById(ID):
+    foundtask = todoDAO.findByID(ID)
 
     return jsonify(foundtask)
 
 
 
-#curl  -i -H "Content-Type:application/json" -X PUT -d "{\"Category\":\"ella\",\"Priority\":\"xHigh\",\"Status\":\"OPEN\"}" http://127.0.0.1:5000/todo/3
+#curl  -i -H "Content-Type:application/json" -X PUT -d "{\"Title\":\"BRENDAN ELLA\",\"Description\":\"UNITED\",\"Category\":\"ELLA\",\"Priority\":\"xHigh\",\"Status\":\"OPEN\"}" http://127.0.0.1:5000/task/79
 
 
-@app.route('/todo/<int:TASKID>', methods=['PUT'])
-def update(TASKID):
-    foundtask = todoDAO.findByID(TASKID)
-    print("found book")
+@app.route('/task/<int:ID>', methods=['PUT'])
+def update(ID):
+    foundtask = todoDAO.findByID(ID)
+    #print("found task")
     if not foundtask:
-       # print("error1")
+        #print("error1")
         abort(404)
     
     if not request.json:
         #print("error2")
         abort(400)
     reqJson = request.json
-    print(reqJson)
-
- 
+    
+    if 'Title' in reqJson:
+        foundtask['Title'] = reqJson['Title']
+    if 'Description' in reqJson:
+        foundtask['Description'] = reqJson['Description']
     if 'Category' in reqJson:
         foundtask['Category'] = reqJson['Category']
     if 'Priority' in reqJson:
         foundtask['Priority'] = reqJson['Priority']
     if 'Status' in reqJson:
         foundtask['Status'] = reqJson['Status']
-    if 'TASKID' in reqJson:
-        foundtask['TASKID'] = reqJson['TASKID']
-        
-    values = (foundtask['Category'],foundtask['Priority'],foundtask['Status'])
-    todoDAO.update2(values,TASKID)
+    if 'DeadlineDate' in reqJson:
+        foundtask['DeadlineDate'] = reqJson['DeadlineDate']
+
+    values = (foundtask['Title'],foundtask['Description'],foundtask['Category'],foundtask['Priority'],foundtask['Status'],foundtask['ID'])
+    todoDAO.update(values)
     return jsonify(foundtask)
+   
+  
 
 
 ### create
 
-#curl -i -H "Content-Type:application/json" -X POST -d "{\"Title\":\"create task\",\"Category\":\"ella\",\"Description\":\"dfdfdf\",\"Priority\":\"xHigh\",\"Status\":\"OPEN\"}" http://127.0.0.1:5000/todo
+#curl -i -H "Content-Type:application/json" -X POST -d "{\"Title\":\"create task\",\"Category\":\"tRIXIE\",\"Description\":\"dfdfdf\",\"Priority\":\"xHigh\",\"Status\":\"OPEN\"}" http://127.0.0.1:5000/task
 
-@app.route('/todo', methods=['POST'])
+@app.route('/task', methods=['POST'])
 def create():
     
     if not request.json:
@@ -87,22 +91,23 @@ def create():
         "Category": request.json['Category'],
         "Description": request.json['Description'],
         "Priority": request.json['Priority'],
-        "Status": request.json['Status'],
+        "Status": request.json['Status']
+        
 
     }
 
 
-    values = (task['Title'],task['Category'],task['Description'],task['Priority'],task['Status'])
+    #values = (task['Title'],task['Category'],task['Description'],task['Priority'],task['Status'])
     #newId = todoDAO.create(values)
-    #task['TASKID'] = newId
+    #task['ID'] = newId
     #return jsonify(task)
     return jsonify(todoDAO.create(task))
 
 
 
-@app.route('/todo/<int:id>' , methods=['DELETE'])
-def delete(TASKID):
-    todoDAO.delete(TASKID)
+@app.route('/task/<int:ID>' , methods=['DELETE'])
+def delete(ID):
+    todoDAO.delete(ID)
     return jsonify({"done":True})
 
 

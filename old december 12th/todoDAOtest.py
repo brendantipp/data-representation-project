@@ -4,16 +4,25 @@ from todoDAO import todoDAO
 
 task = {
 
+
+
 'Title':"NEW XMAS FILM TEST",
 'Description':'NEED WINE',
 'Category':"College",
 'Priority':"High",
-'Status':"Open",
-'ID':79,
+'Status':"Open"
 
 }
 
 
+task2 = {
+
+'TASKID':3,
+'Category':"Home",
+'Priority':"XLow",
+'Status':"Closed"
+
+}
 
 
 
@@ -32,14 +41,14 @@ task3 = {
 task4 = {
 
 
-   'ID':79,
+    'TASKID':2,
    'Status':"Open",
 }
 
 
 task5 = {
 
-'ID':1,
+'TASKID':1,
 
 
 }
@@ -49,19 +58,20 @@ task5 = {
 #returnvalue =todoDAO.create(task)
 
 #testing the get all 
-#returnValue = todoDAO.getAll()
-#print(returnValue)
+returnValue = todoDAO.getAll()
+print(returnValue)
 
 #testing find by id 
-#returnValue = todoDAO.findByID(79)
+#returnValue = todoDAO.findByID(task4['TASKID'])
 #print(returnValue)
 
 
 #testing update
-#print(task)
-returnValue = todoDAO.update(task)
-print(returnValue)
+#returnValue = todoDAO.update(task2)
+#print(returnValue)
+
+
 
 #testing delete
-#returnValue = todoDAO.delete(task5['ID'])
+#returnValue = todoDAO.delete(task5['TASKID'])
 #print(returnValue)
