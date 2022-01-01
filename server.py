@@ -64,8 +64,7 @@ def update(ID):
         foundtask['Priority'] = reqJson['Priority']
     if 'Status' in reqJson:
         foundtask['Status'] = reqJson['Status']
-    if 'DeadlineDate' in reqJson:
-        foundtask['DeadlineDate'] = reqJson['DeadlineDate']
+
 
     values = (foundtask['Title'],foundtask['Description'],foundtask['Category'],foundtask['Priority'],foundtask['Status'],foundtask['ID'])
     todoDAO.update(values)

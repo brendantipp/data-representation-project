@@ -120,7 +120,7 @@ class todoDAO:
 #function to covert to dictionary
 
     def convertToDictionary(self, result):
-        colnames=['ID','DateAdded','Title','Description','Category','Priority', 'Status','DeadlineDate']
+        colnames=['ID','DateAdded','Title','Description','Category','Priority', 'Status']
         item = {}
         
         if result:
