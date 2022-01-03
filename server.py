@@ -1,7 +1,8 @@
 #this is server.py
-#maps urls to functionis
+#my restful API server
+#maps urls to functions
 #keep as simple as possible
-#similar to rest server week 8
+
 
 from flask import Flask, jsonify, request, abort,render_template, session, url_for,redirect
 from todoDAO import todoDAO
@@ -15,6 +16,7 @@ app.secret_key = 'someSecrtetasdrgsadfgsdfg3ko'
 
 #https://pythonise.com/series/learning-flask/rendering-html-files-with-flask
 #the following will open my index page on opening local host
+
 @app.route('/')
 def index():
 

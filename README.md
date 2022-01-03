@@ -40,8 +40,8 @@ Other files
 #### Python files
 
 - messages.py is the python file with teh code to connect to and extract the messages for the API
-- server.py - is my flash app server file 
-- todoDAO.py - containts my python functions 
+- server.py - is my flash app server restful API, performs my CRUD operations
+- todoDAO.py - contains my python functions , deals with msqlconnector, convert formats
 
 ## Contact
 

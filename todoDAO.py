@@ -1,12 +1,11 @@
 #this is todpdoa.py
 #deals with msqlconnector
 #convert formats
+
+#perform my imports required
 import csv
-
 import mysql.connector
-
 from datetime import datetime
-#now = datetime.now()
 
 class todoDAO:
     db=""
@@ -22,7 +21,6 @@ class todoDAO:
     
 
 ### create new record
-
     def create(self,task):
         cursor = self.db.cursor()
         sql="insert into todo (DateAdded,Title, Description, Category, Priority, Status) values (now(),%s,%s,%s,%s,%s)"
