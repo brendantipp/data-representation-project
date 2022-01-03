@@ -23,6 +23,11 @@
     background: #ccc;
     padding: 20px;
   }
+
+
+  h3 {
+    text-align: center;
+  }
   
   /* Style the list inside the menu */
   nav ul {
