@@ -8,16 +8,20 @@
 
 
 
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort,render_template
 from todoDAO import todoDAO
+import messages
+
 
 app = Flask(__name__, static_url_path='', static_folder='.')
 
 #app = Flask(__name__)
 
+#https://pythonise.com/series/learning-flask/rendering-html-files-with-flask
+#the following will open my index page on opening local host
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return render_template("index.html")
 
 #curl "http://127.0.0.1:5000/task"
 @app.route('/task')
@@ -27,6 +31,16 @@ def getAll():
     return jsonify(result)
     #return jsonify(todoDAO.getAll())
 
+
+### this is for the gmail API
+
+#curl "http://127.0.0.1:5000/gmail"
+@app.route('/gmail')
+def getAll2():
+    #print("in getemails")
+    result = todoDAO.getAll_email()
+    return jsonify(result)
+    
 
 
 #curl "http://127.0.0.1:5000/task/37"
@@ -112,4 +126,7 @@ def delete(ID):
 
 
 if __name__ == '__main__' :
+    messages.main()
     app.run(debug= True)
+    
+    

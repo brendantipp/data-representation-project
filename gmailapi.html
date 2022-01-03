@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>BRENDANS SUPERS TASKS - GMAIL TASKS</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="mystyle.css">
+
+
+</head>
+<body>
+<header>
+  <h2>Brendans Super Tasks - My Gmail Tasks</h2>
+</header>
+
+
+
+<section>
+
+    <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="task.html">Open Tasks</a></li>
+          <li><a href="gmailapi.html">Tasks Email API</a></li>
+          <li><a href="#">Project overview</a></li>
+        </ul>
+      </nav>
+
+      <tasks>
+
+<div id="display">
+    <h2>My GMAIL Tasks</h2>
+    <p>This is a list of the email tasks sent to brendanstasks@gmail.com and extracted using the gmial API</p>
+    <p>You can easily extract these tasks to csv by clicking here 
+        <a href="emails.csv">Extract eMail Tasks to CSV</a>
+         </p>
+    <p>I hope to add an auto resfresh so my server app checks say every 60 seconds - to be completed may be out of scope for this project timeframe</p>
+    <table id="emailTable" class="table">
+        <tr>
+            <th>ID</th>
+            <th>DateReceived</th>
+            <th>From</th>
+            <th>Subject</th>
+            <th>Email_Snippet</th>
+            
+            
+            
+        </tr>
+        
+    </table>
+</tasks>
+</section> 
+
+</div>
+
+<footer>
+  <p>(c) Brendan Ryan GMIT</p>
+</footer>
+<script>
+
+    function populateTable(){
+        //ajax getAll
+       $.ajax({
+           url:'http://127.0.0.1:5000/gmail',
+           method:'GET',
+           datatype:'JSON',
+           success:function(results){
+                for (task of results){
+                     addtaskToTable(task)
+                }
+           },
+           error:function (xhr,status,error){
+               console.log ("error "+error +" code:"+status)
+           }
+
+       })
+       
+    }
+    
+    function addtaskToTable(email){
+        //console.log("working so far")
+        tableElem = document.getElementById("emailTable")
+        rowElem = tableElem.insertRow(-1)
+        //rowElem.setAttribute("id", task.ID)//check
+        cell1 = rowElem.insertCell(0)
+        cell1.innerHTML = email.ID
+        cell2 = rowElem.insertCell(1)
+        cell2.innerHTML = email.DateReceived
+        cell3 = rowElem.insertCell(2)
+        cell3.innerHTML = email.From
+        cell4 = rowElem.insertCell(3)
+        cell4.innerHTML = email.Subject
+        cell5 = rowElem.insertCell(4)
+        cell5.innerHTML = email.Email_Snippet
+
+         }
+
+
+
+    populateTable()
+</script>
+</body>
+</html>

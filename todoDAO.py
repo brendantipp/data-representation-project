@@ -1,7 +1,7 @@
 #this is todpdoa.py
 #deals with msqlconnector
 #convert formats
-
+import csv
 
 import mysql.connector
 
@@ -72,7 +72,21 @@ class todoDAO:
             returnArray.append(self.convertToDictionary(result))
         return returnArray
 
-    
+    def getAll_email(self):
+        
+        file = open("emails.csv")
+        #file = open("aMessage.json")
+        csvreader = csv.reader(file)
+        next(csvreader)
+        #header = next(csvreader)
+        #print(header)
+        rows = []
+        for row in csvreader:
+            #rows.append(row)
+            rows.append(self.convertToDictionary2(row))
+        return rows
+        #file.close()
+
 
 #function to find a task by id
 
@@ -84,12 +98,6 @@ class todoDAO:
         result = cursor.fetchone()
         return self.convertToDictionary(result)
         #return {}
-
-
-
-
-
-
 
 
 #function to delete
@@ -121,6 +129,17 @@ class todoDAO:
 
     def convertToDictionary(self, result):
         colnames=['ID','DateAdded','Title','Description','Category','Priority', 'Status']
+        item = {}
+        
+        if result:
+            for i, colName in enumerate(colnames):
+                value = result[i]
+                item[colName] = value
+        
+        return item
+
+    def convertToDictionary2(self, result):
+        colnames=['ID','DateReceived','From','Subject','Email_Snippet']
         item = {}
         
         if result:
