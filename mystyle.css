@@ -1,3 +1,5 @@
+/* css styling   */
+
 * {
     box-sizing: border-box;
   }
@@ -6,7 +8,7 @@
     font-family: Arial, Helvetica, sans-serif;
   }
   
-  /* Style the header */
+  /* Style for my header */
   header {
     background-color: rgb(5, 37, 143);
     padding: 30px;
@@ -15,7 +17,7 @@
     color: white;
   }
   
-  /* Create two columns/boxes that floats next to each other */
+  /* style for my navigtaion  */
   nav {
     float: left;
     width: 15%;
@@ -24,7 +26,7 @@
     padding: 20px;
   }
 
-
+/* a new H3 style*/
   h3 {
     text-align: center;
   }
@@ -49,7 +51,7 @@
     clear: both;
   }
   
-  /* Style the footer */
+  /* Style my footer area  */
   footer {
     background-color: #777;
     padding: 10px;
@@ -57,7 +59,7 @@
     color: white;
   }
   
-  /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+  /* Responsive layout from w3s schools  */
   @media (max-width: 600px) {
     nav, tasks {
       width: 100%;

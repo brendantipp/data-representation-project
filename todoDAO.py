@@ -7,6 +7,7 @@ import csv
 import mysql.connector
 from datetime import datetime
 
+#db connection
 class todoDAO:
     db=""
     def __init__(self): 
@@ -20,7 +21,7 @@ class todoDAO:
         print ("Connection Made")
     
 
-### create new record
+### function to create new record
     def create(self,task):
         cursor = self.db.cursor()
         sql="insert into todo (DateAdded,Title, Description, Category, Priority, Status) values (now(),%s,%s,%s,%s,%s)"
@@ -32,7 +33,6 @@ class todoDAO:
             task['Category'],
             task['Priority'],
             task['Status'],
-            
         ]
 
         cursor.execute(sql, values)
@@ -41,19 +41,14 @@ class todoDAO:
         return cursor.lastrowid
 
 ## function to update records
-
     def update(self,values):
         cursor = self.db.cursor()
-        
-        sql="update todo set Title = %s, Description =%s, Category= %s, Priority= %s, Status = %s where ID = %s"
-        
-           
+        sql="update todo set Title = %s, Description =%s, Category= %s, Priority= %s, Status = %s where ID = %s"  
         cursor.execute(sql,values)
         self.db.commit()
 
 
 ## function to return all records
-
     def getAll(self):
         cursor = self.db.cursor()
         ##look at formatting date return
@@ -62,17 +57,14 @@ class todoDAO:
         results = cursor.fetchall()
         #return results
         returnArray = []
-        #print(results)
-        ##look at converting to json later
-        #sanity check
         for result in results:
            # print(result)
             returnArray.append(self.convertToDictionary(result))
         return returnArray
 
+# function to get emails from csv extracted via API
     def getAll_email(self):
-        
-        file = open("emails.csv")
+        file = open("emails.csv")   
         #file = open("aMessage.json")
         csvreader = csv.reader(file)
         next(csvreader)
@@ -87,7 +79,6 @@ class todoDAO:
 
 
 #function to find a task by id
-
     def findByID(self,ID):
         cursor = self.db.cursor()
         sql="select * from todo where ID = %s"
@@ -99,7 +90,6 @@ class todoDAO:
 
 
 #function to delete
-
     def delete(self,ID):
         cursor = self.db.cursor()
         sql="delete from todo where ID = %s"
@@ -110,7 +100,7 @@ class todoDAO:
         print("delete done")
         #return
 
-
+#Test delete
     def delete2(self,ID):
         cursor = self.db.cursor()
         sql="delete from todo where ID = %s"
@@ -122,9 +112,7 @@ class todoDAO:
         print("delete done")
 
 
-
 #function to covert to dictionary
-
     def convertToDictionary(self, result):
         colnames=['ID','DateAdded','Title','Description','Category','Priority', 'Status']
         item = {}

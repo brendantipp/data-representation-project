@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+<!-- js import -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-
+<!-- link to my stylesheet and bootstrap css  -->
 <link rel="stylesheet" href="mystyle.css">
 
 
@@ -20,7 +20,7 @@
 <header>
   <h2>Brendans Super Tasks</h2>
 </header>
-
+<!--my section div -->
 <section>
   <nav>
     <ul>
@@ -100,6 +100,7 @@
 <footer>
   <p>(c) Brendan Ryan GMIT</p>
 </footer>
+<!--js any scripts go here -->
 <script>
     function showCreate(){
         document.getElementById('display').style.display = "none"
@@ -138,9 +139,7 @@
 
         
         form.querySelector('input[name="ID"]').value = task.ID
-        //form.querySelector('input[name="ID"]').disabled=true
-        //form.querySelector('input[name="DateAdded"]').value = task.DateAdded
-        //form.querySelector('input[name="DateAdded"]').disabled=true
+
         
         form.querySelector('input[name="Title"]').value = task.Title
         form.querySelector('input[name="Description"]').value = task.Description
@@ -156,7 +155,7 @@
 
 
             form.querySelector('input[name="ID"]').value = ''
-            //form.querySelector('input[name="ID"]').disabled = false
+ 
             form.querySelector('input[name="Title"]').value = ''
             form.querySelector('input[name="Description"]').value = ''
             form.querySelector('input[name="Category"]').value = ''

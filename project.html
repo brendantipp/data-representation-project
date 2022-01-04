@@ -5,9 +5,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+<!-- js import -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            
+
+
+<!-- link to my stylesheet and bootstrap css  -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -20,7 +22,7 @@
 <header>
   <h2>Brendans Super Tasks</h2>
 </header>
-
+<!--my section div -->
 <section>
   <nav>
     <ul>
@@ -39,12 +41,41 @@
 <p>Welcome to Brendans Super tasks - im a busy man !!!</p>
 <p>Select an option from the menu on the left</p>
 
-<p>Project overview to go here </p>
+<p>Project overview to go here</p>
 
-  </tasks>
+I decided to create a tasks web application which:
+
+<ol>
+<li>- Allows me to add/create tasks</li>
+<li>- Update and edit these tasks</li>
+<li>- Delete a task</li>
+</ol>
+<br>
+My web application was developed using my Flask server that has a REST API which performs my CRUD operations (Create,Read, Update, Delete)
+
+<br><br>
+
+The application also links to the Google Gmail API which extracts emails sent to brendanstasks@gmail.com.
+<br>
+The user also has the ability to extract the emails using the google Gmail API and save as a csv file.
+<br>
+The user needs to login to view and edit create tasks etc - this is performed via the use of cookies sessions.
+<br>
+<br>
+Future improvements - probably wont get this done before project deadline but is for my own interest and training)
+<br>
+<ol>
+<br>
+<li>- Validation on form to allow only certain selections and perform form Validation (ie no empty values allowed)</li>
+<li>- login validation via my mySql users table</li>
+<li>- Upload and host on to pythonanywhere</li> <p><a href="http://brenbiz.eu.pythonanywhere.com/">Link to my Python Anywhere</a></p>
+</ol>
+
+</tasks>
 </section>
 
 <footer>
+  <!--js any scripts go here -->
   <p>(c) Brendan Ryan GMIT</p>
 </footer>
 <script>

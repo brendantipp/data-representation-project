@@ -15,8 +15,9 @@
 # [START gmail_quickstart]
 from __future__ import print_function
 
-import os.path
 
+#my required importsw 
+import os.path
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -30,6 +31,7 @@ import requests
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
+#GOOGLE GMAIL API TAKEN DIRCTLY FROM GOOGLE
 
 def main():
     """Shows basic usage of the Gmail API.
@@ -71,6 +73,7 @@ def main():
         response = service.users().messages().list(userId='me', pageToken=page_token).execute()
         messages.extend(response['messages'])
 
+#GET MY MESSAGS AND EXPORT TO CSV AND TO JSON
 
     file = ('emails.csv')
    
@@ -103,7 +106,7 @@ def main():
             #export to json - aMessage.json
             json.dump([message['id'],dateReceived,messageFrom,subject,snippet], f, indent=4)
 
-
+#Main function
 
 if __name__ == '__main__':
     main()
